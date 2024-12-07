@@ -1,31 +1,66 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>One Piece Streaming</title>
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>One Piece Streaming</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/mediaelement@4.2.6/build/mediaelementplayer.min.css" />
 </head>
 <body>
-  <header>
     <h1>One Piece Streaming</h1>
-  </header>
-  <main>
-    <div class="player-container">
-      <video id="videoPlayer" controls>
-        <source id="videoSource" src="" type="application/x-mpegURL">
-        Your browser does not support video playback.
-      </video>
-    </div>
-    <div class="episode-list">
-      <h2>Select Episode</h2>
-      <ul id="episodeMenu">
-        <!-- Episodes will be dynamically added here -->
-      </ul>
-    <div id="episodeButtons">
-  <!-- Buttons จะถูกเพิ่มที่นี่ -->
-</div>
-  </main>
-  <script src="script.js"></script>
+    
+    <!-- Dropdown for selecting episodes -->
+    <label for="episodeSelect">Select Episode:</label>
+    <select id="episodeSelect">
+        <!-- Options will be populated dynamically -->
+    </select>
+    
+    <!-- Video Player with poster image -->
+    <video id="player1" width="640" height="360" controls poster="pxfuel.jpg">
+        Your browser does not support the video tag.
+    </video>
+
+    <!-- Load the MediaElement.js library -->
+    <script src="https://cdn.jsdelivr.net/npm/mediaelement@4.2.6/build/mediaelement-and-player.min.js"></script>
+    <script>
+        // Fetch m3u8 URLs from the txt file and populate the select dropdown
+        fetch('urls.txt')
+            .then(response => response.text())
+            .then(data => {
+                const episodes = data.split('\n'); // Split by line breaks
+                const episodeSelect = document.getElementById('episodeSelect');
+
+                // Dynamically populate the dropdown with episode options
+                episodes.forEach((line, index) => {
+                    const [title, url] = line.split(':').map(item => item.trim());
+                    if (url) {
+                        const option = document.createElement('option');
+                        option.value = url;
+                        option.text = title;
+                        episodeSelect.appendChild(option);
+                    }
+                });
+
+                // Initialize the MediaElement Player with the selected episode
+                const player = new MediaElementPlayer('player1', {
+                    plugins: ['flash', 'silverlight'],
+                    success: function(mediaElement) {
+                        const firstUrl = episodeSelect.value;
+                        mediaElement.setSrc(firstUrl);
+                        mediaElement.load();
+                        mediaElement.play();
+                    }
+                });
+
+                // Change the video source when a new episode is selected
+                episodeSelect.addEventListener('change', function() {
+                    const selectedUrl = episodeSelect.value;
+                    player.setSrc(selectedUrl);
+                    player.load();
+                    player.play();
+                });
+            })
+            .catch(err => console.error('Error loading URLs:', err));
+    </script>
 </body>
 </html>
