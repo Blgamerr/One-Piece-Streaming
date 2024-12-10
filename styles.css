@@ -24,6 +24,9 @@ body {
   list-style-type: none;
   padding: 0;
 }
+.mejs__playpause-button {
+  display: inline-block !important;
+}
 
 #episode-list li {
   display: inline-block;
