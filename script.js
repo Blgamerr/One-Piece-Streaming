@@ -1,12 +1,12 @@
 document.addEventListener("DOMContentLoaded", async () => {
   const player = new MediaElementPlayer("player", {
-    autoplay: false,  // ปิดการเล่นอัตโนมัติ
+    autoplay: false,
     features: ['playpause', 'progress', 'volume', 'fullscreen'],
   });
-  
+
   const episodeList = document.getElementById("episode-list");
 
-  // ฟังก์ชันโหลดข้อมูลจากไฟล์ TXT
+  // ฟังก์ชันโหลดข้อมูลจากไฟล์ TXT (หรือ index.m3u8)
   async function loadEpisodes() {
     try {
       const response = await fetch("episodes.txt");
