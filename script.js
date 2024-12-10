@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     features: ['playpause', 'progress', 'volume', 'fullscreen']
   });
 
-  const episodeButtons = document.getElementById('episode-buttons');
+  const episodeSelect = document.getElementById('episode-select');
 
   async function loadEpisodes() {
     try {
@@ -15,14 +15,10 @@ document.addEventListener("DOMContentLoaded", async () => {
       });
 
       episodes.forEach(episode => {
-        const button = document.createElement('button');
-        button.textContent = episode.title;
-        button.onclick = () => {
-          player.media.src = episode.url;
-          player.load();
-          player.play();
-        };
-        episodeButtons.appendChild(button);
+        const option = document.createElement('option');
+        option.value = episode.url;
+        option.textContent = episode.title;
+        episodeSelect.appendChild(option);
       });
     } catch (error) {
       console.error('Error loading episodes:', error);
@@ -30,4 +26,12 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
   loadEpisodes();
+
+  episodeSelect.addEventListener('change', () => {
+    const selectedUrl = episodeSelect.value;
+    const playerElement = document.getElementById('player');
+    playerElement.src = selectedUrl;
+    player.load();
+    player.play();
+  });
 });
