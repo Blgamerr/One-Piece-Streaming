@@ -4,71 +4,25 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>One Piece Streaming</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/mediaelement/build/mediaelementplayer.min.css">
+  <link rel="stylesheet" href="styles.css">
   <script src="https://cdn.jsdelivr.net/npm/mediaelement/build/mediaelement-and-player.min.js"></script>
-  <style>
-    .episode-buttons {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-    }
-    .episode-buttons button {
-      padding: 10px;
-      background-color: #007BFF;
-      color: white;
-      border: none;
-      cursor: pointer;
-      border-radius: 5px;
-    }
-    .episode-buttons button:hover {
-      background-color: #0056b3;
-    }
-  </style>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/mediaelement/build/mediaelementplayer.min.css">
 </head>
 <body>
-  <h1>One Piece Streaming</h1>
-  <video id="player" controls width="800" height="450">
-    <source src="" type="application/x-mpegURL">
-    Your browser does not support the video tag.
-  </video>
+  <div class="container">
+    <h1>One Piece Streaming</h1>
+    <div class="video-container">
+      <video id="player" controls width="800" height="450">
+        <source src="" type="application/x-mpegURL">
+        Your browser does not support the video tag.
+      </video>
+    </div>
+    <div class="episode-selector">
+      <h2>Select Episode:</h2>
+      <ul id="episode-list"></ul>
+    </div>
+  </div>
 
-  <div class="episode-buttons" id="episode-buttons"></div>
-
-  <script>
-    document.addEventListener("DOMContentLoaded", async () => {
-      const player = new MediaElementPlayer('player', {
-        features: ['playpause', 'progress', 'volume', 'fullscreen']
-      });
-
-      const episodeButtonsContainer = document.getElementById('episode-buttons');
-
-      async function loadEpisodes() {
-        try {
-          const response = await fetch('episodes.txt');
-          const text = await response.text();
-          const episodes = text.split('\n').map(line => {
-            const [title, url] = line.split(',');
-            return { title: title.trim(), url: url.trim() };
-          });
-
-          episodes.forEach(episode => {
-            const button = document.createElement('button');
-            button.textContent = episode.title;
-            button.addEventListener('click', () => {
-              player.media.src = episode.url;
-              player.load();
-              player.play();
-            });
-            episodeButtonsContainer.appendChild(button);
-          });
-
-        } catch (error) {
-          console.error('Error loading episodes:', error);
-        }
-      }
-
-      loadEpisodes();
-    });
-  </script>
+  <script src="script.js"></script>
 </body>
 </html>
