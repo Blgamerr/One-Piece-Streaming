@@ -1,9 +1,20 @@
-document.addEventListener("DOMContentLoaded", async () => {
-  const player = new MediaElementPlayer('player', {
-  features: ['playpause', 'progress', 'volume', 'fullscreen'],
-  autoplay: false  // ปิดการเล่นอัตโนมัติ
-});
+document.addEventListener("DOMContentLoaded", () => {
+  const player = new MediaElementPlayer("player", {
+    autoplay: false,  // ปิดการเล่นอัตโนมัติ
+    features: ['playpause', 'progress', 'volume', 'fullscreen'],
+  });
+
   const episodeList = document.getElementById("episode-list");
+
+  episodeList.addEventListener('click', (e) => {
+    if (e.target && e.target.nodeName === "BUTTON") {
+      const episodeUrl = e.target.getAttribute('data-url');
+      player.setSrc(episodeUrl);
+      player.load();  // โหลดตอนใหม่
+      player.pause();  // หยุดเล่นทันที
+    }
+  });
+});
 
   // ฟังก์ชันสำหรับโหลดข้อมูลจากไฟล์ TXT
   async function loadEpisodes() {
