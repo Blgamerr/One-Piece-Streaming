@@ -1,12 +1,12 @@
 document.addEventListener("DOMContentLoaded", async () => {
   const player = new MediaElementPlayer("player", {
-    autoplay: false,
+    autoplay: false,  // ปิดการเล่นอัตโนมัติ
     features: ['playpause', 'progress', 'volume', 'fullscreen'],
   });
+  
+  const episodeList = document.getElementById("episode-list");
 
-  const episodeSelect = document.getElementById("episode-select");
-
-  // ฟังก์ชันโหลดข้อมูลจากไฟล์ TXT (หรือ index.m3u8)
+  // ฟังก์ชันโหลดข้อมูลจากไฟล์ TXT
   async function loadEpisodes() {
     try {
       const response = await fetch("episodes.txt");
@@ -16,12 +16,16 @@ document.addEventListener("DOMContentLoaded", async () => {
         return { title: title.trim(), url: url.trim() };
       });
 
-      // เพิ่มรายการตอนลงใน select dropdown
+      // สร้างปุ่มเลือกตอน
       episodes.forEach(episode => {
-        const option = document.createElement("option");
-        option.value = episode.url;
-        option.textContent = episode.title;
-        episodeSelect.appendChild(option);
+        const button = document.createElement("button");
+        button.textContent = episode.title;
+        button.addEventListener("click", () => {
+          player.setSrc(episode.url);
+          player.load();
+          player.play();  // เล่นตอนใหม่
+        });
+        episodeList.appendChild(button);
       });
     } catch (error) {
       console.error("Error loading episodes:", error);
@@ -29,12 +33,4 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
   loadEpisodes();
-
-  // เมื่อเลือกตอนใหม่ให้เล่น
-  episodeSelect.addEventListener("change", () => {
-    const selectedUrl = episodeSelect.value;
-    player.setSrc(selectedUrl);
-    player.load();
-    player.play();  // เริ่มเล่น
-  });
 });
