@@ -29,18 +29,8 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   episodeSelect.addEventListener('change', () => {
     const selectedUrl = episodeSelect.value;
-    if (Hls.isSupported()) {
-      const hls = new Hls();
-      hls.loadSource(selectedUrl);
-      hls.attachMedia(player.media);
-      hls.on(Hls.Events.MANIFEST_PARSED, function() {
-        player.play();
-      });
-    } else if (player.media.canPlayType('application/vnd.apple.mpegurl')) {
-      player.media.src = selectedUrl;
-      player.media.addEventListener('loadedmetadata', () => {
-        player.play();
-      });
-    }
+    player.media.src = selectedUrl;
+    player.load();
+    player.play();
   });
 });
