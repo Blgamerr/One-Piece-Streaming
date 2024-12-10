@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>One Piece Streaming</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/mediaelement@4.2.16/dist/mediaelementplayer.min.css">
+  <style>
+    #videoContainer {
+      position: relative;
+      width: 100%;
+      max-width: 900px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    video {
+      width: 100%;
+      height: auto;
+    }
+
+    button {
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>One Piece - ดูตอนใหม่</h1>
+
+  <!-- วิดีโอและปก -->
+  <div id="videoContainer">
+    <video id="videoPlayer" controls poster="https://example.com/onepiece_cover.jpg">
+      <source type="application/x-mpegURL" src="" />
+    </video>
+  </div>
+
+  <button onclick="loadNextVideo()">เล่นตอนถัดไป</button>
+
+  <script src="https://cdn.jsdelivr.net/npm/mediaelement@4.2.16/dist/mediaelement.min.js"></script>
+  <script>
+    let videoElement = document.getElementById('videoPlayer');
+    let videoSource = videoElement.querySelector('source');
+
+    // อ่านไฟล์ txt ที่เก็บ URL
+    async function getVideoUrls() {
+      const response = await fetch('urls.txt'); // อ่านไฟล์ txt
+      const text = await response.text();
+      return text.split('\n').map(line => line.trim()).filter(line => line.length > 0);
+    }
+
+    let videoUrls = [];
+    let currentIndex = 0;
+
+    // โหลดวิดีโอแรกจากไฟล์ URL
+    async function loadVideo() {
+      videoUrls = await getVideoUrls();
+      if (videoUrls.length > 0) {
+        loadVideoByIndex(currentIndex);
+      } else {
+        alert('ไม่พบ URL วิดีโอ');
+      }
+    }
+
+    // โหลดวิดีโอจากไฟล์ .m3u8
+    function loadVideoByIndex(index) {
+      const videoUrl = videoUrls[index];
+      videoSource.src = videoUrl;
+
+      videoElement.load(); // โหลดและแสดงวิดีโอ
+      videoElement.play(); // เริ่มเล่นวิดีโอ
+    }
+
+    // เล่นตอนถัดไป
+    function loadNextVideo() {
+      if (currentIndex < videoUrls.length - 1) {
+        currentIndex++;
+        loadVideoByIndex(currentIndex);
+      } else {
+        alert('ดูครบแล้ว! ไม่มีตอนถัดไป');
+      }
+    }
+
+    // เรียกใช้เมื่อโหลดหน้า
+    loadVideo();
+  </script>
+
+</body>
+</html>
