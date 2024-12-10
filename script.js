@@ -1,5 +1,8 @@
 document.addEventListener("DOMContentLoaded", async () => {
-  const player = new MediaElementPlayer("player");
+  const player = new MediaElementPlayer('player', {
+  features: ['playpause', 'progress', 'volume', 'fullscreen'],
+  autoplay: false  // ปิดการเล่นอัตโนมัติ
+});
   const episodeList = document.getElementById("episode-list");
 
   // ฟังก์ชันสำหรับโหลดข้อมูลจากไฟล์ TXT
