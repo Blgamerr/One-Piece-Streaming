@@ -3,8 +3,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     features: ['playpause', 'progress', 'volume', 'fullscreen']
   });
 
-  const episodeButton = document.getElementById('episode-button');
-  const episodeButtonsContainer = document.getElementById('episode-buttons');
+  const episodeSelect = document.getElementById('episode-select');
 
   async function loadEpisodes() {
     try {
@@ -16,25 +15,25 @@ document.addEventListener("DOMContentLoaded", async () => {
       });
 
       episodes.forEach(episode => {
-        const button = document.createElement('button');
-        button.textContent = episode.title;
-        button.onclick = () => {
-          player.media.src = episode.url;
+        const option = document.createElement('option');
+        option.value = episode.url;
+        option.textContent = episode.title;
+        episodeSelect.appendChild(option);
+      });
+
+      episodeSelect.addEventListener('change', () => {
+        const selectedUrl = episodeSelect.value;
+        if (selectedUrl) {
+          player.media.src = selectedUrl;
           player.load();
           player.play();
-          episodeButtonsContainer.style.display = 'none'; // Hide after selecting
-        };
-        episodeButtonsContainer.appendChild(button);
+        }
       });
+
     } catch (error) {
       console.error('Error loading episodes:', error);
     }
   }
-
-  // Toggle visibility of episode buttons when clicked
-  episodeButton.addEventListener('click', () => {
-    episodeButtonsContainer.style.display = episodeButtonsContainer.style.display === 'none' ? 'flex' : 'none';
-  });
 
   loadEpisodes();
 });
