@@ -2,7 +2,8 @@ document.addEventListener("DOMContentLoaded", () => {
   const player = new MediaElementPlayer("player", {
     autoplay: false,  // ปิดการเล่นอัตโนมัติ
     features: ['playpause', 'progress', 'volume', 'fullscreen'],
-  });
+   }):
+
   const episodeList = document.getElementById("episode-list");
 
   episodeList.addEventListener('click', (e) => {
