@@ -6,24 +6,6 @@
   <title>One Piece Streaming</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/mediaelement/build/mediaelementplayer.min.css">
   <script src="https://cdn.jsdelivr.net/npm/mediaelement/build/mediaelement-and-player.min.js"></script>
-  <style>
-    .episode-buttons {
-      display: flex;
-      flex-direction: row;
-      gap: 10px;
-    }
-    .episode-buttons button {
-      padding: 10px;
-      background-color: #007BFF;
-      color: white;
-      border: none;
-      cursor: pointer;
-      border-radius: 5px;
-    }
-    .episode-buttons button:hover {
-      background-color: #0056b3;
-    }
-  </style>
 </head>
 <body>
   <h1>One Piece Streaming</h1>
@@ -32,7 +14,8 @@
     Your browser does not support the video tag.
   </video>
 
-  <div class="episode-buttons" id="episode-buttons"></div>
+  <label for="episode-select">Select Episode: </label>
+  <select id="episode-select"></select>
 
   <script src="script.js"></script>
 </body>
