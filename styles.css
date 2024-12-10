@@ -1,4 +1,4 @@
-body {
+คะbody {
   font-family: Arial, sans-serif;
   background-color: #f4f4f9;
   margin: 0;
@@ -45,3 +45,6 @@ body {
 #episode-list li button:hover {
   background-color: #0056b3;
 }
+new MediaElementPlayer('player', {
+  features: ['playpause', 'progress', 'volume', 'fullscreen']
+});
