@@ -24,41 +24,64 @@
     button {
       margin-top: 10px;
     }
+
+    select {
+      margin: 20px;
+    }
   </style>
 </head>
 <body>
 
   <h1>One Piece - ดูตอนใหม่</h1>
 
+  <!-- ตัวเลือกตอน -->
+  <label for="episodeSelect">เลือกตอน:</label>
+  <select id="episodeSelect" onchange="loadSelectedVideo()">
+    <option value="">เลือกตอน</option>
+    <!-- ตัวเลือกตอนจะถูกเพิ่มโดย JavaScript -->
+  </select>
+
   <!-- วิดีโอและปก -->
   <div id="videoContainer">
-    <video id="videoPlayer" controls poster="pxfuel">
+    <video id="videoPlayer" controls poster="https://example.com/onepiece_cover.jpg">
       <source type="application/x-mpegURL" src="" />
     </video>
   </div>
-
-  <button onclick="loadNextVideo()">เล่นตอนถัดไป</button>
 
   <script src="https://cdn.jsdelivr.net/npm/mediaelement@4.2.16/dist/mediaelement.min.js"></script>
   <script>
     let videoElement = document.getElementById('videoPlayer');
     let videoSource = videoElement.querySelector('source');
+    let episodeSelect = document.getElementById('episodeSelect');
 
-    // อ่านไฟล์ txt ที่เก็บ URL
+    // อ่านไฟล์ txt ที่เก็บ URL และชื่อตอน
     async function getVideoUrls() {
       const response = await fetch('urls.txt'); // อ่านไฟล์ txt
       const text = await response.text();
-      return text.split('\n').map(line => line.trim()).filter(line => line.length > 0);
+      const lines = text.split('\n').map(line => line.trim()).filter(line => line.length > 0);
+
+      // แปลงข้อมูลในไฟล์ txt ให้เป็นรายการตอนและ URL
+      return lines.map((line, index) => {
+        return {
+          title: `ตอนที่ ${index + 1}`, // ชื่อตอน
+          url: line, // URL ของ .m3u8
+        };
+      });
     }
 
     let videoUrls = [];
-    let currentIndex = 0;
 
-    // โหลดวิดีโอแรกจากไฟล์ URL
+    // โหลดข้อมูล URL และสร้างตัวเลือกตอน
     async function loadVideo() {
       videoUrls = await getVideoUrls();
       if (videoUrls.length > 0) {
-        loadVideoByIndex(currentIndex);
+        // สร้างรายการตัวเลือกตอน
+        videoUrls.forEach((video, index) => {
+          let option = document.createElement('option');
+          option.value = index;
+          option.textContent = video.title;
+          episodeSelect.appendChild(option);
+        });
       } else {
         alert('ไม่พบ URL วิดีโอ');
       }
@@ -66,20 +89,18 @@
 
     // โหลดวิดีโอจากไฟล์ .m3u8
     function loadVideoByIndex(index) {
-      const videoUrl = videoUrls[index];
+      const videoUrl = videoUrls[index].url;
       videoSource.src = videoUrl;
 
       videoElement.load(); // โหลดและแสดงวิดีโอ
       videoElement.play(); // เริ่มเล่นวิดีโอ
     }
 
-    // เล่นตอนถัดไป
-    function loadNextVideo() {
-      if (currentIndex < videoUrls.length - 1) {
-        currentIndex++;
-        loadVideoByIndex(currentIndex);
-      } else {
-        alert('ดูครบแล้ว! ไม่มีตอนถัดไป');
+    // เมื่อเลือกตอนจาก dropdown
+    function loadSelectedVideo() {
+      const selectedIndex = episodeSelect.value;
+      if (selectedIndex !== "") {
+        loadVideoByIndex(selectedIndex);
       }
     }
 
