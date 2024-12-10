@@ -30,9 +30,29 @@
   <div>
     <select id="episode-select">
       <option value="">Select Episode</option>
+      <option value="https://example.com/episode.m3u8">Episode 1</option>
+      <option value="https://example.com/episode.m3u8">Episode 2</option>
+      <option value="https://example.com/episode.m3u8">Episode 3</option>
     </select>
   </div>
 
-  <script src="script.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const player = new MediaElementPlayer('player', {
+        features: ['playpause', 'progress', 'volume', 'fullscreen']
+      });
+
+      const episodeSelect = document.getElementById('episode-select');
+
+      episodeSelect.addEventListener('change', () => {
+        const selectedUrl = episodeSelect.value;
+        if (selectedUrl) {
+          player.media.src = selectedUrl;
+          player.load();
+          player.play();
+        }
+      });
+    });
+  </script>
 </body>
 </html>
