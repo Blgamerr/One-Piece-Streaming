@@ -1,5 +1,4 @@
 ep937https://mazestreaming.com/hls/61334c22b1d41d32fc6039f6/2c46ab6b3652ed36682221d1edcc416a/d9f7ec91e21f97cfae173e72c5754197/index.m3u8?signature=606b6e46-42bb-4d39-83c9-639108fce410
 ep938https://mazestreaming.com/hls/61334c22b1d41d32fc6039f6/50f26e8e526446354d819e209776a891/8e23758b60544319b48d75730a7daff5/index.m3u8?signature=606b6e46-42bb-4d39-83c9-639108fce410
 ep939https://mazestreaming.com/hls/61334c22b1d41d32fc6039f6/c4ddc3144584106c017cb799473c252b/c4c53c925275d383d0d62ab0c95b2ff7/index.m3u8?signature=606b6e46-42bb-4d39-83c9-639108fce410
-ep940https://mazestreaming.com/hls/61334c22b1d41d32fc6039f6/1b0959698b487086eef9195ca6e052c9/3adc3b9071373da4c6a361830b6b1b60/index.m3u8?signature=606b6e46-42bb-4d39-83c9-639108fce410
-https://onepiecethai.com/%E0%B8%94%E0%B8%B9%E0%B8%A7%E0%B8%B1%E0%B8%99%E0%B8%9E%E0%B8%B5%E0%B8%8B/
+ep410:index.m3u8
